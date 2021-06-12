@@ -1,12 +1,10 @@
 --------------------------------------------------------------------------------
--- Company: 
--- Engineer:
+-- Name:				Chase Szafranski
 --
--- Create Date:   02:48:49 06/12/2021
--- Design Name:   
--- Module Name:   /home/ise/MorseDecoder/morse_decoder_fsm_test_bench.vhd
--- Project Name:  MorseDecoder
--- Target Device:  
+-- Create Date:  	02:48:49 06/12/2021
+-- Module Name:  	/home/ise/MorseDecoder/morse_decoder_fsm_test_bench.vhd
+-- Project Name: 	Morse Decoder
+-- Target Device:	Arty A7: Artix-7 FPGA Development Board
 -- Tool versions:  
 -- Description:   
 -- 

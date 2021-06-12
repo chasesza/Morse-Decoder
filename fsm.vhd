@@ -1,13 +1,11 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Name: 				Chase Szafranski
 -- 
--- Create Date:    22:14:10 06/11/2021 
--- Design Name: 
--- Module Name:    fsm - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
+-- Create Date:  		22:14:10 06/11/2021 
+-- Module Name:  		fsm - Behavioral 
+-- Project Name: 		Morse Decoder
+-- Target Devices:	Arty A7: Artix-7 FPGA Development Board
+-- Tool versions:  	ISE 14.7
 -- Description: 
 --
 -- Dependencies: 

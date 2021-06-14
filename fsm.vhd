@@ -32,6 +32,7 @@ entity fsm is
 		dot		: in std_logic;
 		dash		: in std_logic;
 		clk		: in std_logic;
+		new_data	: in std_logic;
 		z			: out std_logic_vector (5 downto 0);
 		update	: out std_logic
 		  );
@@ -46,73 +47,77 @@ architecture Behavioral of fsm is
 				ST0, ST1, ST2, ST3, ST4, ST5, ST6, ST7, ST8, ST9, STOE, STOT);
 	signal pST 	: states := STCLR;
 	signal nST	: states;
+	signal prev_new_data	: std_logic;
 
 begin
 	clk_proc: process(clk)
 	begin
 		if rising_edge(clk) then
-			if ( (dot = '0') and (dash = '0') ) then
-				nST <= STCLR;
-			elsif ( (dot = '1') and (dash = '0') ) then
-				case pST is
-					when STCLR => nST <= STE;
-					when STE => nST <= STI;
-					when STI => nST <= STS;
-					when STS => nST <= STH;
-					when STH => nST <= ST5;
-					when STV => nST <= STVE;
-					when STU => nST <= STF;
-					when STUT => nST <= STUTE;
-					when STUTE => nST <= STIMI;
-					when STA => nST <= STR;
-					when STR => nST <= STL;
-					when STL => nST <= STAS;
-					when STRT => nST <= STAR;
-					when STW => nST <= STP;
-					when STT => nST <= STN;
-					when STN => nST <= STD;
-					when STD => nST <= STB;
-					when STB => nST <= ST6;
-					when STBT => nST <= STBTE;
-					when STK => nST <= STC;
-					when STY => nST <= STKN;
-					when STM => nST <= STG;
-					when STG => nST <= STZ;
-					when STZ => nST <= ST7;
-					when STO => nST <= STOE;
-					when STOE => nST <= ST8;
-					when STOT => nST <= ST9;
-					when others => nST <= STINVALID;
-				end case;
-			elsif ( (dot = '0') and (dash = '1') ) then
-				case pST is
-					when STCLR => nST <= STT;
-					when STT => nST <= STM;
-					when STM => nST <= STO;
-					when STO => nST <= STOT;
-					when STOT => nST <= ST0;
-					when STG => nST <= STQ;
-					when STN => nST <= STK;
-					when STK => nST <= STY;
-					when STD => nST <= STX;
-					when STB => nST <= STBT;
-					when STBTE => nST <= STBK;
-					when STE => nST <= STA;
-					when STA => nST <= STW;
-					when STW => nST <= STJ;
-					when STJ => nsT <= ST1;
-					when STR => nST <= STRT;
-					when STI => nST <= STU;
-					when STU => nST <= STUT;
-					when STUT => nST <= ST2;
-					when STS => nST <= STV;
-					when STV => nST <= ST3;
-					when STVE => nST <= STSK;
-					when STH => nST <= ST4;
-					when others => nST <= STINVALID;
-				end case;
-			else
-				nST <= STINVALID;
+			prev_new_data <= new_data;
+			if ( (new_data = '1' or new_data ='H') and (prev_new_data = '0' or prev_new_data = 'L') ) then
+				if ( (dot = '0') and (dash = '0') ) then
+					nST <= STCLR;
+				elsif ( (dot = '1') and (dash = '0') ) then
+					case pST is
+						when STCLR => nST <= STE;
+						when STE => nST <= STI;
+						when STI => nST <= STS;
+						when STS => nST <= STH;
+						when STH => nST <= ST5;
+						when STV => nST <= STVE;
+						when STU => nST <= STF;
+						when STUT => nST <= STUTE;
+						when STUTE => nST <= STIMI;
+						when STA => nST <= STR;
+						when STR => nST <= STL;
+						when STL => nST <= STAS;
+						when STRT => nST <= STAR;
+						when STW => nST <= STP;
+						when STT => nST <= STN;
+						when STN => nST <= STD;
+						when STD => nST <= STB;
+						when STB => nST <= ST6;
+						when STBT => nST <= STBTE;
+						when STK => nST <= STC;
+						when STY => nST <= STKN;
+						when STM => nST <= STG;
+						when STG => nST <= STZ;
+						when STZ => nST <= ST7;
+						when STO => nST <= STOE;
+						when STOE => nST <= ST8;
+						when STOT => nST <= ST9;
+						when others => nST <= STINVALID;
+					end case;
+				elsif ( (dot = '0') and (dash = '1') ) then
+					case pST is
+						when STCLR => nST <= STT;
+						when STT => nST <= STM;
+						when STM => nST <= STO;
+						when STO => nST <= STOT;
+						when STOT => nST <= ST0;
+						when STG => nST <= STQ;
+						when STN => nST <= STK;
+						when STK => nST <= STY;
+						when STD => nST <= STX;
+						when STB => nST <= STBT;
+						when STBTE => nST <= STBK;
+						when STE => nST <= STA;
+						when STA => nST <= STW;
+						when STW => nST <= STJ;
+						when STJ => nsT <= ST1;
+						when STR => nST <= STRT;
+						when STI => nST <= STU;
+						when STU => nST <= STUT;
+						when STUT => nST <= ST2;
+						when STS => nST <= STV;
+						when STV => nST <= ST3;
+						when STVE => nST <= STSK;
+						when STH => nST <= ST4;
+						when others => nST <= STINVALID;
+					end case;
+				else
+					nST <= STINVALID;
+				end if;
 			end if;
 		end if;
 	end process clk_proc;

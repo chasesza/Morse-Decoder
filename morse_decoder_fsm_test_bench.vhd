@@ -42,6 +42,7 @@ ARCHITECTURE behavior OF morse_decoder_fsm_test_bench IS
          dot : IN  std_logic;
          dash : IN  std_logic;
          clk : IN  std_logic;
+			new_data	: IN std_logic;
          z : OUT  std_logic_vector(5 downto 0);
          update : OUT  std_logic
         );
@@ -52,6 +53,7 @@ ARCHITECTURE behavior OF morse_decoder_fsm_test_bench IS
    signal dot : std_logic := '0';
    signal dash : std_logic := '0';
    signal clk : std_logic := '0';
+   signal new_data : std_logic := '0';
 
  	--Outputs
    signal z : std_logic_vector(5 downto 0);
@@ -59,6 +61,9 @@ ARCHITECTURE behavior OF morse_decoder_fsm_test_bench IS
 
    -- Clock period definitions
    constant clk_period : time := 10 ns;
+	
+	signal clk2	: std_logic := '0';
+	constant clk2_period : time := 40 ns;
  
 BEGIN
  
@@ -68,7 +73,8 @@ BEGIN
           dash => dash,
           clk => clk,
           z => z,
-          update => update
+          update => update,
+			 new_data => new_data
         );
 
    -- Clock process definitions
@@ -80,6 +86,13 @@ BEGIN
 		wait for clk_period/2;
    end process;
  
+	clk2_process :process
+	begin
+		clk2 <= '0';
+		wait for clk2_period/2;
+		clk2 <= '1';
+		wait for clk2_period/2;
+	end process;
 
    -- Stimulus process
    stim_proc: process
@@ -90,132 +103,241 @@ BEGIN
       wait for clk_period*10;
 
       -- insert stimulus here 
-		wait until clk = '1';
+		wait until clk2 = '1';
 		dot <= '0';
 		dash <= '0';
 		
 		--Q
-		wait until clk = '1';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '1';
 		dash <= '0';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '0';
 		
 		--S
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '1';
 		dash <= '0';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '1';
 		dash <= '0';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '1';
 		dash <= '0';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '0';
 		
 		--O
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		
 		--2
 		dot <= '0';
 		dash <= '0';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '1';
 		dash <= '0';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '1';
 		dash <= '0';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '0';
 		
 		--0
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '0';
 		
 		--0
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '0';
 		
 		--1
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '1';
 		dash <= '0';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '1';
-		wait until clk = '1';
+		wait until clk2 = '0';
+		new_data <= '0';
+		wait until clk2 = '1';
+		new_data <= '1';
 		dot <= '0';
 		dash <= '0';
 		

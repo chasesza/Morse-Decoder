@@ -6,7 +6,7 @@
 -- Project Name: 		Morse Decoder
 -- Target Devices:	Arty A7: Artix-7 FPGA Development Board
 -- Tool versions:  	ISE 14.7
--- Description: 
+-- Description: 		Converts the series of dots and dashes to text.
 --
 -- Dependencies: 
 --
@@ -44,7 +44,7 @@ architecture Behavioral of fsm is
 				STJ, STK, STL, STM, STN, STO, STP, STQ, STR, STS,
 				STT, STU, STV, STW, STX, STY, STZ, STVE, STUT, STUTE,
 				STRT, STBT, STBTE, STBK, STKN, STAS, STAR, STSK, STIMI,
-				ST0, ST1, ST2, ST3, ST4, ST5, ST6, ST7, ST8, ST9, STOE, STOT);
+				ST0, ST1, ST2, ST3, ST4, ST5, ST6, ST7, ST8, ST9, STOE, STOT, STSPACE);
 	signal pST 	: states := STCLR;
 	signal nST	: states;
 	signal prev_new_data	: std_logic;
@@ -115,6 +115,8 @@ begin
 						when STH => nST <= ST4;
 						when others => nST <= STINVALID;
 					end case;
+				elsif ( (dot = '1') and (dash = '1') ) then
+					nST <= STSPACE;
 				else
 					nST <= STINVALID;
 				end if;
@@ -124,6 +126,11 @@ begin
 	
 	st_update_proc: process(nST)
 	begin
+		--A = 0 -> Z = 25
+		--0 = 26 -> 9 = 35
+		--IMI/? = 36, SK = 37, AS = 38
+		--AR = 39, BT = 40, BK = 41, KN = 42
+		--Space = 43, Invalid = 44
 		if nST = STCLR then
 			case pST is
 				when STA => z <= "000000";
@@ -169,12 +176,17 @@ begin
 				when STBT => z <= "101000";
 				when STBK => z <= "101001";
 				when STKN => z <= "101010";
-				when others => z <= "101011";
+				when STSPACE => z <= "101011";
+				when others => z <= "101100"; -- 44, code for invalid 
 			end case;
 			update <= '1';
 			pST <= nST;
-		elsif nsT = STINVALID then
-			z <= "101011";	-- 43, code for invalid 
+		elsif nST = STINVALID then
+			z <= "101100";	-- 44, code for invalid 
+			pST <= STCLR;
+			update <= '1';
+		elsif nST = STSPACE then
+			z <= "101011";
 			pST <= STCLR;
 			update <= '1';
 		else

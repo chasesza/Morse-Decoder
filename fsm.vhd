@@ -2,10 +2,10 @@
 -- Name: 				Chase Szafranski
 -- 
 -- Create Date:  		22:14:10 06/11/2021 
--- Module Name:  		fsm - Behavioral 
+-- Module Name:  		fsm - RTL 
 -- Project Name: 		Morse Decoder
--- Target Devices:	Arty A7: Artix-7 FPGA Development Board
--- Tool versions:  	ISE 14.7
+-- Target Devices:	    Arty A7: Artix-7 FPGA Development Board
+-- Tool versions:  	    Vivado
 -- Description: 		Converts the series of dots and dashes to text.
 --
 -- Dependencies: 
@@ -39,7 +39,7 @@ entity fsm is
 		
 end fsm;
 
-architecture Behavioral of fsm is
+architecture RTL of fsm is
 	type states is (STINVALID, STCLR, STA, STB, STC, STD, STE, STF, STG, STH, STI,
 				STJ, STK, STL, STM, STN, STO, STP, STQ, STR, STS,
 				STT, STU, STV, STW, STX, STY, STZ, STVE, STUT, STUTE,
@@ -54,6 +54,8 @@ begin
 	begin
 		if rising_edge(clk) then
 			prev_new_data <= new_data;
+			
+			--Check for new unprocessed data, and change the state
 			if ( (new_data = '1' or new_data ='H') and (prev_new_data = '0' or prev_new_data = 'L') ) then
 				if ( (dot = '0') and (dash = '0') ) then
 					nST <= STCLR;
@@ -195,5 +197,5 @@ begin
 		end if;
 	end process st_update_proc;
 
-end Behavioral;
+end RTL;
 

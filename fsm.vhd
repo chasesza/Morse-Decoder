@@ -45,18 +45,83 @@ architecture RTL of fsm is
 				STT, STU, STV, STW, STX, STY, STZ, STVE, STUT, STUTE,
 				STRT, STBT, STBTE, STBK, STKN, STAS, STAR, STSK, STIMI,
 				ST0, ST1, ST2, ST3, ST4, ST5, ST6, ST7, ST8, ST9, STOE, STOT, STSPACE);
-	signal pST 	: states := STCLR;
-	signal nST	: states;
+	signal pST 	: states := STINVALID;
+	signal nST	: states := STCLR;
 	signal prev_new_data	: std_logic;
 
 begin
 	clk_proc: process(clk)
 	begin
 		if rising_edge(clk) then
+            
+            if pST /= nST then
+                if nST = STCLR then -- output if state machine is going back to the start
+                    case pST is
+                        when STA => z <= "000000";
+                        when STB => z <= "000001";
+                        when STC => z <= "000010";
+                        when STD => z <= "000011";
+                        when STE => z <= "000100";
+                        when STF => z <= "000101";
+                        when STG => z <= "000110";
+                        when STH => z <= "000111";
+                        when STI => z <= "001000";
+                        when STJ => z <= "001001";
+                        when STK => z <= "001010";
+                        when STL => z <= "001011";
+                        when STM => z <= "001100";
+                        when STN => z <= "001101";
+                        when STO => z <= "001110";
+                        when STP => z <= "001111";
+                        when STQ => z <= "010000";
+                        when STR => z <= "010001";
+                        when STS => z <= "010010";
+                        when STT => z <= "010011";
+                        when STU => z <= "010100";
+                        when STV => z <= "010101";
+                        when STW => z <= "010110";
+                        when STX => z <= "010111";
+                        when STY => z <= "011000";
+                        when STZ => z <= "011001";
+                        when ST0 => z <= "011010";
+                        when ST1 => z <= "011011";
+                        when ST2 => z <= "011100";
+                        when ST3 => z <= "011101";
+                        when ST4 => z <= "011110";
+                        when ST5 => z <= "011111";
+                        when ST6 => z <= "100000";
+                        when ST7 => z <= "100001";
+                        when ST8 => z <= "100010";
+                        when ST9 => z <= "100011";
+                        when STIMI => z <= "100100";
+                        when STSK => z <= "100101";
+                        when STAS => z <= "100110";
+                        when STAR => z <= "100111";
+                        when STBT => z <= "101000";
+                        when STBK => z <= "101001";
+                        when STKN => z <= "101010";
+                        when STSPACE => z <= "101011";
+                        when others => z <= "101100"; -- 44, code for invalid 
+                    end case;
+                    update <= '1';
+                elsif nST = STSPACE then
+                    z <= "101011";
+                    update <= '1';
+                    nST <= STCLR;
+                else
+                    update <= '0';
+                end if;
+                pST <= nST;
+            else
+                update <= '0';
+            end if;
+            
+            
+            -- get next state
 			prev_new_data <= new_data;
-			
 			--Check for new unprocessed data, and change the state
 			if ( (new_data = '1' or new_data ='H') and (prev_new_data = '0' or prev_new_data = 'L') ) then
+			
 				if ( (dot = '0') and (dash = '0') ) then
 					nST <= STCLR;
 				elsif ( (dot = '1') and (dash = '0') ) then
@@ -126,76 +191,7 @@ begin
 		end if;
 	end process clk_proc;
 	
-	st_update_proc: process(nST)
-	begin
-		--A = 0 -> Z = 25
-		--0 = 26 -> 9 = 35
-		--IMI/? = 36, SK = 37, AS = 38
-		--AR = 39, BT = 40, BK = 41, KN = 42
-		--Space = 43, Invalid = 44
-		if nST = STCLR then
-			case pST is
-				when STA => z <= "000000";
-				when STB => z <= "000001";
-				when STC => z <= "000010";
-				when STD => z <= "000011";
-				when STE => z <= "000100";
-				when STF => z <= "000101";
-				when STG => z <= "000110";
-				when STH => z <= "000111";
-				when STI => z <= "001000";
-				when STJ => z <= "001001";
-				when STK => z <= "001010";
-				when STL => z <= "001011";
-				when STM => z <= "001100";
-				when STN => z <= "001101";
-				when STO => z <= "001110";
-				when STP => z <= "001111";
-				when STQ => z <= "010000";
-				when STR => z <= "010001";
-				when STS => z <= "010010";
-				when STT => z <= "010011";
-				when STU => z <= "010100";
-				when STV => z <= "010101";
-				when STW => z <= "010110";
-				when STX => z <= "010111";
-				when STY => z <= "011000";
-				when STZ => z <= "011001";
-				when ST0 => z <= "011010";
-				when ST1 => z <= "011011";
-				when ST2 => z <= "011100";
-				when ST3 => z <= "011101";
-				when ST4 => z <= "011110";
-				when ST5 => z <= "011111";
-				when ST6 => z <= "100000";
-				when ST7 => z <= "100001";
-				when ST8 => z <= "100010";
-				when ST9 => z <= "100011";
-				when STIMI => z <= "100100";
-				when STSK => z <= "100101";
-				when STAS => z <= "100110";
-				when STAR => z <= "100111";
-				when STBT => z <= "101000";
-				when STBK => z <= "101001";
-				when STKN => z <= "101010";
-				when STSPACE => z <= "101011";
-				when others => z <= "101100"; -- 44, code for invalid 
-			end case;
-			update <= '1';
-			pST <= nST;
-		elsif nST = STINVALID then
-			z <= "101100";	-- 44, code for invalid 
-			pST <= STCLR;
-			update <= '1';
-		elsif nST = STSPACE then
-			z <= "101011";
-			pST <= STCLR;
-			update <= '1';
-		else
-			pST <= nST;
-			update <= '0';
-		end if;
-	end process st_update_proc;
+	
 
 end RTL;
 

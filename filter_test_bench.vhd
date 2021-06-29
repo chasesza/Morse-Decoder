@@ -153,12 +153,6 @@ BEGIN
 
       -- insert stimulus here
 		
-		--92 wpm dot
-		d <= '1';
-		wait for 13 ms;
-		d <= '0';
-		wait for 13 ms;
-		
 		--92 wpm dash
 		d <= '1';
 		wait for 39 ms;
@@ -168,6 +162,21 @@ BEGIN
 		--92 wpm dot
 		d <= '1';
 		wait for 13 ms;
+		d <= '0';
+		wait for 13 ms;
+		
+		wait for 65 ms; -- space (when combined with previous 13ms wait)
+		wait for 6 ms; -- de-synchronize timing
+		
+		--92 wpm dot
+		d <= '1';
+		wait for 13 ms;
+		d <= '0';
+		wait for 13 ms;
+		
+		--92 wpm dah
+		d <= '1';
+		wait for 39 ms;
 		d <= '0';
 		wait for 13 ms;
 				

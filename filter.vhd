@@ -49,6 +49,7 @@ architecture RTL of filter is
     signal assume_dash : unsigned (22 downto 0) := (others => '0');
     signal assume_dash_delay : unsigned (1 downto 0) := "00";
     signal zero_seq_len : unsigned (1 downto 0) := "00";
+    signal one_seq_len : unsigned(3 downto 0);
     
     signal wait_for_zero : std_logic;
     
@@ -71,10 +72,10 @@ begin
                 assume_dash <= (others => '0');
                 pST <= idle;
             else
-                if too_long = '1' then
+                if too_long = '1' then -- fix morse unit length
                     wait_for_zero <= '1'; -- re-synchronize timing
                     zero_seq_len <= (others => '0');
-                    if current_counter = dash_counter then --made the incorrect assumption that the first signal was a dash
+                    if current_counter = dash_counter then --fix the incorrect assumption that the first signal was a dash
                         unit_length <= assume_dot;
                         current_counter <= dot_counter;
                         pST <= counting;
@@ -103,7 +104,7 @@ begin
                     end if;
                     if d = '0' then
                         zero_seq_len <= zero_seq_len + 1; -- don't want to stop incrementing the dot length due to a little noise
-                        if zero_seq_len = "11" then
+                        if zero_seq_len = "11" then -- stop incrementing morse unit length
                             zero_seq_len <= "00";
                             unit_length <= assume_dash;
                             assume_dash_delay <= "00";
@@ -111,6 +112,7 @@ begin
                             current_counter <= dash_counter;
                             cycle_counter <= (others => '0');
                             input_counter <= (others => '0');
+                            one_seq_len <= (others => '0');
                         else
                             zero_seq_len <= zero_seq_len + 1;
                             pST <= changing_speed;
@@ -134,7 +136,20 @@ begin
                         cycle_counter <= cycle_counter + 1;
                         if d = '1' then
                             input_counter <= input_counter + 1;
+                            if input_counter < cycle_counter/4 then
+                                if one_seq_len = "1111" then -- Re-synchronize decoder if the gaps between signals weren't perfect morse units
+                                    input_counter <= (others => '0');
+                                    cycle_counter <= (others => '0');
+                                    if cycle_counter >= unit_length/2 then
+                                        q <= '0';
+                                        update <= '1';
+                                    end if;
+                                else
+                                    one_seq_len <= one_seq_len + 1;
+                                end if;
+                            end if;
                         else
+                            one_seq_len <= (others => '0');
                             input_counter <= input_counter;
                         end if;
                     end if;

@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
--- Name: 				Chase Szafranski
+-- Created by: 				Chase Szafranski
 -- 
 -- Create Date:    	    23:23:49 06/14/2021
 -- Module Name:    	    dot_dash_decoder - RTL 

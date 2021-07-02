@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
--- Name: 				Chase Szafranski
+-- Created by: 				Chase Szafranski
 -- 
 -- Create Date:  		22:14:10 06/11/2021 
 -- Module Name:  		fsm - RTL 

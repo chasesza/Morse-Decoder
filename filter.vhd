@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
--- Name:                Chase Szafranski
+-- Created by:                Chase Szafranski
 -- 
 -- Create Date:         20:39:47 06/15/2021
 -- Module Name:         filter - RTL 

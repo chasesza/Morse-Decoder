@@ -83,7 +83,7 @@ begin
             prev_new_data <= new_data;
             
             --store new data
-            if new_data = '1' and prev_new_data = '0' then
+            if new_data = '1' then
                 --store new data
                 screen(0)(col) <= d;
              

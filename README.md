@@ -18,7 +18,7 @@ VHDL used in the current version of the project.
 
 ### Decoder_instantiation_one_button_to_oled.vhd
 Top level instantiation for this version of the project.  
-Connects the Xilinx clocking wizard, decoder_block, input_converter, image_data_storage, and oled_communication blocks to each other and the dev board's buttons, switches, leds, and Pmod IO.
+Connects the Xilinx clocking wizard IP, decoder_block, input_converter, image_data_storage, and oled_communication blocks to each other and the dev board's buttons, switches, leds, and Pmod IO.
 
 ### Decoder_block.vhd   
 Takes a stream of on-off Morse input and converts it to a number that represents a character.

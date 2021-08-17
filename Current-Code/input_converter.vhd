@@ -8,7 +8,7 @@
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
--- Description: 
+-- Description: Converts character codes to 8x8 pixel images.
 -- 
 -- Dependencies: 
 -- 

@@ -6,9 +6,9 @@
 -- Design Name: 
 -- Module Name: decoder_instantiation_one_button_to_oled - RTL
 -- Project Name: 
--- Target Devices: 
+-- Target Devices: Arty A7
 -- Tool Versions: 
--- Description: 
+-- Description: Links components to each other and the hardware. Ouputs button(0)'s current state to led(0) to make it easier to visualize the Morse input.
 -- 
 -- Dependencies: 
 -- 
@@ -36,7 +36,8 @@ Port(
           CLK100MHZ : in STD_LOGIC;
           btn    : in STD_LOGIC_VECTOR (3 downto 0);
           sw       : in STD_LOGIC_VECTOR (3 downto 0);
-          ja      : out STD_LOGIC_VECTOR (7 downto 0)
+          ja      : out STD_LOGIC_VECTOR (7 downto 0);
+          led   :   out STD_LOGIC_VECTOR (3 downto 0)
         );
 end decoder_instantiation_one_button_to_oled;
 
@@ -177,5 +178,5 @@ begin
         last_data => last_data
     );
     
-    
+    led(0) <= btn(0);
 end RTL;

@@ -5,8 +5,8 @@
 -- Module Name:         decoder_block - RTL
 -- Project Name:        Morse Decoder
 -- Target Devices:      Arty A7: Artix-7 FPGA Development Board
--- Tool versions:  	    Vivado 2020.2
--- Description: 
+-- Tool versions:  	Vivado 2020.2
+-- Description: 	Converts Morse input to character codes.
 -- 
 -- Dependencies: 
 -- 

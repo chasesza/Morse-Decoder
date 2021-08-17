@@ -1,6 +1,13 @@
 # Morse-Decoder
-Reads Morse code input through a button and outputs the resulting text to a screen.   
+Reads Morse code input through a button, automatically detects the speed, and outputs the resulting text to a screen.   
 Implemented on a [Digilent Arty A7 FPGA Development board](https://store.digilentinc.com/arty-a7-artix-7-fpga-development-board/) with a [Pmod OLED graphic display](https://store.digilentinc.com/pmod-oled-128-x-32-pixel-monochromatic-oled-display/).
+
+[Demonstration - YouTube Link](https://youtu.be/lpAaF3Yb4CQ)
+<br>  
+
+[![Demonstration - YouTube Link](https://i.ytimg.com/vi/lpAaF3Yb4CQ/hqdefault.jpg)](https://youtu.be/lpAaF3Yb4CQ)
+
+The LED turns on when the input button is pressed to make it easier to see the button's current state.
 
 ## Block_schematic.pdf
 The elaborated design schematic of the project.  
